@@ -4,21 +4,18 @@ import matplotlib.pyplot as plt
 
 st.title("Strait of Hormuz - Ship Traffic Analysis")
 
-# Upload file
 uploaded_file = st.file_uploader("Upload CSV file", type="csv")
 if uploaded_file:
     df = pd.read_csv(uploaded_file, parse_dates=["DateTime"])
     df.sort_values("DateTime", inplace=True)
 
-    # Compute total ships
     df["Total Ships"] = df["Number of Tanker Ships"] + df["Number of Cargo Ships"]
     df["Month"] = df["DateTime"].dt.to_period("M")
     df["Week"] = df["DateTime"].dt.to_period("W")
 
     st.subheader("Raw Data Preview")
-    st.dataframe(df.head())
+    st.dataframe(df.tail(10))
 
-    # Plot option
     plot_type = st.radio("Select plot type", ["Single Ship Type", "Overlay All Types"])
 
     if plot_type == "Single Ship Type":
@@ -63,7 +60,6 @@ if uploaded_file:
         ax.legend()
         st.pyplot(fig)
 
-    # Monthly & Weekly summaries
     st.subheader("Monthly Summary")
     monthly_summary = df.groupby("Month")[["Number of Tanker Ships", "Number of Cargo Ships", "Total Ships"]].mean().round(2)
     st.dataframe(monthly_summary)
