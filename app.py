@@ -60,10 +60,6 @@ if uploaded_file:
         ax.legend()
         st.pyplot(fig)
 
-    st.subheader("Monthly Summary")
-    monthly_summary = df.groupby("Month")[["Number of Tanker Ships", "Number of Cargo Ships", "Total Ships"]].mean().round(2)
-    st.dataframe(monthly_summary)
-
     st.subheader("Weekly Summary")
     weekly_summary = df.groupby("Week")[["Number of Tanker Ships", "Number of Cargo Ships", "Total Ships"]].mean().round(2)
     st.dataframe(weekly_summary)
